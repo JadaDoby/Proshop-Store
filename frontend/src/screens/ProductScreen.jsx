@@ -16,8 +16,6 @@ const ProductScreen = () => {
 
   const [qty, setQty] = useState(1); 
 
-  
-
   const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
 
   const addToCartHandler = () => {
