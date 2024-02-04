@@ -23,6 +23,7 @@ const Header = () => {
       navigate("/login");
     } catch (err) {
       console.log(err);
+      alert("Failed to log out. Please try again."); 
     }
   }
     return (
