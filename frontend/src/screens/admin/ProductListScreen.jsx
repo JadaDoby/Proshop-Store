@@ -3,12 +3,30 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaTimes, FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+} from "../../slices/productsApiSlice";
+import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
+  const [createProduct, { isLoading: loadingCreate }] = useCreateProductMutation();
+  
 
   const deleteHandler = (id) => {}
+
+  const createProductHandler = async () => {
+    if (window.confirm("Are you sure you want to create a product?")) {
+      try {
+        await createProduct();
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.message || err.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -17,11 +35,13 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm m-3">
+          <Button className="btn-sm m-3" onClick={createProductHandler}>
             <FaEdit /> Create Product
           </Button>
         </Col>
       </Row>
+
+      {loadingCreate && <Loader />}
 
       {isLoading ? (
         <Loader />
@@ -50,11 +70,8 @@ const ProductListScreen = () => {
                   <td>{product.brand}</td>
                   <td>
                     <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button
-                        variant="light"
-                        className="btn-sm mx-2"
-                      >
-                        <FaEdit/>
+                      <Button variant="light" className="btn-sm mx-2">
+                        <FaEdit />
                       </Button>
                     </LinkContainer>
                     <Button
@@ -62,7 +79,7 @@ const ProductListScreen = () => {
                       className="btn-sm"
                       onClick={() => deleteHandler(product._id)}
                     >
-                        <FaTrash style={{ color: "white" }} />
+                      <FaTrash style={{ color: "white" }} />
                     </Button>
                   </td>
                 </tr>
