@@ -19,7 +19,6 @@ import {
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import Meta from '../components/Meta';
 import { addToCart } from '../slices/cartSlice';
 
 const ProductScreen = () => {
@@ -78,7 +77,6 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
-          <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
@@ -161,9 +159,9 @@ const ProductScreen = () => {
           <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
-              {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              {product.review.length === 0 && <Message>No Reviews</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map((review) => (
+                {product.review.map((review) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
