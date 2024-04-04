@@ -26,9 +26,6 @@ const UserListScreen = () => {
       }
     };
 
-    // const deleteHandler = async (id) => {
-    //     console.log('delete');
-    // };
 
   return (
     <>
