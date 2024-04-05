@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
   Col,
@@ -10,32 +9,26 @@ import {
   Card,
   Button,
   Form,
-} from "react-bootstrap";
-import { toast } from "react-toastify";
+} from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
-} from "../slices/productsApiSlice";
-import Rating from "../components/Rating";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import Meta from "../components/Meta";
-import { addToCart } from "../slices/cartSlice";
+} from '../slices/productsApiSlice';
+import Rating from '../components/Rating';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import Meta from '../components/Meta';
+import { addToCart } from '../slices/cartSlice';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  const addToCartHandler = () => {
-    dispatch(addToCart({ ...product, qty }));
-    navigate("/cart");
-  };
+  const [comment, setComment] = useState('');
 
   const {
     data: product,
@@ -46,8 +39,12 @@ const ProductScreen = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [createReview, { isLoading: loadingProductReview }] =
-    useCreateReviewMutation();
+  const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
+    navigate('/cart');
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -59,19 +56,63 @@ const ProductScreen = () => {
         comment,
       }).unwrap();
       refetch();
-      toast.success("Review created successfully");
+      toast.success('Review created successfully');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
+  };
+
+  const renderReviewForm = () => {
+    if (loadingProductReview) {
+      return <Loader />;
+    }
+    if (userInfo) {
+      return (
+        <Form onSubmit={submitHandler}>
+          <Form.Group className="my-2" controlId="rating">
+            <Form.Label>Rating</Form.Label>
+            <Form.Control
+              as="select"
+              required
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+            >
+              <option value="">Select...</option>
+              <option value="1">1 - Poor</option>
+              <option value="2">2 - Fair</option>
+              <option value="3">3 - Good</option>
+              <option value="4">4 - Very Good</option>
+              <option value="5">5 - Excellent</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="my-2" controlId="comment">
+            <Form.Label>Comment</Form.Label>
+            <Form.Control
+              as="textarea"
+              row="3"
+              required
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Button disabled={loadingProductReview} type="submit" variant="primary">
+            Submit
+          </Button>
+        </Form>
+      );
+    }
+    return (
+      <Message>
+        Please <Link to="/login">sign in</Link> to write a review
+      </Message>
+    );
   };
 
   let content;
   if (isLoading) {
     content = <Loader />;
   } else if (error) {
-    content = (
-      <Message variant="danger">{error?.data?.message || error.error}</Message>
-    );
+    content = <Message variant="danger">{error?.data?.message || error.error}</Message>;
   } else {
     content = (
       <>
@@ -112,12 +153,11 @@ const ProductScreen = () => {
                   <Row>
                     <Col>Status:</Col>
                     <Col>
-                      {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                      {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                     </Col>
                   </Row>
                 </ListGroup.Item>
 
-                {/* Qty Select */}
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
@@ -168,50 +208,7 @@ const ProductScreen = () => {
               ))}
               <ListGroup.Item>
                 <h2>Write a Customer Review</h2>
-
-                {loadingProductReview && <Loader />}
-
-                {userInfo ? (
-                  <Form onSubmit={submitHandler}>
-                    <Form.Group className="my-2" controlId="rating">
-                      <Form.Label>Rating</Form.Label>
-                      <Form.Control
-                        as="select"
-                        required
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                      >
-                        <option value="">Select...</option>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Fair</option>
-                        <option value="3">3 - Good</option>
-                        <option value="4">4 - Very Good</option>
-                        <option value="5">5 - Excellent</option>
-                      </Form.Control>
-                    </Form.Group>
-                    <Form.Group className="my-2" controlId="comment">
-                      <Form.Label>Comment</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        row="3"
-                        required
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                      ></Form.Control>
-                    </Form.Group>
-                    <Button
-                      disabled={loadingProductReview}
-                      type="submit"
-                      variant="primary"
-                    >
-                      Submit
-                    </Button>
-                  </Form>
-                ) : (
-                  <Message>
-                    Please <Link to="/login">sign in</Link> to write a review
-                  </Message>
-                )}
+                {renderReviewForm()}
               </ListGroup.Item>
             </ListGroup>
           </Col>
