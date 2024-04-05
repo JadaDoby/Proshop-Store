@@ -29,6 +29,7 @@ const Product = ({product}) => {
 Product.propTypes = {
   product: PropTypes.shape({
     _id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
   }).isRequired,
 };
 
