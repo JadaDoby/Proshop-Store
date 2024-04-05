@@ -3697,9 +3697,6 @@ fieldset:disabled .btn {
 .dropstart .dropdown-toggle:empty::after {
   margin-left: 0;
 }
-.dropstart .dropdown-toggle::before {
-  vertical-align: 0;
-}
 
 .dropdown-divider {
   height: 0;
