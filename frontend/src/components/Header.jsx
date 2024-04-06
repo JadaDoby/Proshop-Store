@@ -34,8 +34,7 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
-              <img src={logo} alt="ProShop" />
-              Proshop
+              <img src={logo} alt="ProShop" /> Proshop
             </Navbar.Brand>
           </LinkContainer>
 
