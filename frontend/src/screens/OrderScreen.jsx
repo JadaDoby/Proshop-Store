@@ -13,62 +13,62 @@ import {
   usePayOrderMutation,
 } from "../slices/ordersApiSlice";
 
-const { id: orderId } = useParams();
-
-const {
-  data: order,
-  refetch,
-  isLoading,
-  error,
-} = useGetOrderDetailsQuery(orderId);
-
-const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
-
-const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
-
-const { userInfo } = useSelector((state) => state.auth);
-
-const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
-const {
-  data: paypal,
-  isLoading: loadingPayPal,
-  error: errorPayPal,
-} = useGetPaypalClientIdQuery();
-
-function onApprove(data, actions) {
-  return actions.order.capture().then(async function (details) {
-    try {
-      await payOrder({ orderId, details });
-      refetch();
-      toast.success("Order is paid");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  });
-}
-
-function onError(err) {
-  toast.error(err.message);
-}
-
-function createOrder(data, actions) {
-  return actions.order.create({
-    purchase_units: 
-    [
-      {
-        amount: { value: order.totalPrice },
-      },
-    ],
-  }).then((orderID) => {return orderID;});
-}
-
-const deliverHandler = async () => {
-  await deliverOrder(orderId);
-  refetch();
-};
-
 const OrderScreen = () => {
+  
+  const { id: orderId } = useParams();
+
+  const {
+    data: order,
+    refetch,
+    isLoading,
+    error,
+  } = useGetOrderDetailsQuery(orderId);
+
+  const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+
+  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const {
+    data: paypal,
+    isLoading: loadingPayPal,
+    error: errorPayPal,
+  } = useGetPaypalClientIdQuery();
+
+  function onApprove(data, actions) {
+    return actions.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details });
+        refetch();
+        toast.success("Order is paid");
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    });
+  }
+
+  function onError(err) {
+    toast.error(err.message);
+  }
+
+  function createOrder(data, actions) {
+    return actions.order.create({
+      purchase_units: 
+      [
+        {
+          amount: { value: order.totalPrice },
+        },
+      ],
+    }).then((orderID) => {return orderID;});
+  }
+
+  const deliverHandler = async () => {
+    await deliverOrder(orderId);
+    refetch();
+  };
 
   useEffect(() => {
     if (!errorPayPal && !loadingPayPal && paypal.clientId) {
@@ -89,7 +89,7 @@ const OrderScreen = () => {
       }
     }
   }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
-  
+
   return isLoading ? (
     <Loader />
   ) : error ? (
