@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { Link, useNavigate, useParams } from "react-router-dom";
-=======
 import { Link, useNavigate } from "react-router-dom";
->>>>>>> parent of 2f2c27c (fix #1 Aditi)
 import { Form, Button } from "react-bootstrap";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
