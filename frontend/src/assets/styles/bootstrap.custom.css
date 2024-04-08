@@ -3674,9 +3674,7 @@ fieldset:disabled .btn {
   vertical-align: 0.255em;
   content: '';
 }
-.dropstart .dropdown-toggle::after {
-  display: none;
-}
+
 .dropstart .dropdown-toggle::before {
   display: inline-block;
   margin-right: 0.255em;
@@ -3688,9 +3686,6 @@ fieldset:disabled .btn {
 }
 .dropstart .dropdown-toggle:empty::after {
   margin-left: 0;
-}
-.dropstart .dropdown-toggle::before {
-  vertical-align: 0;
 }
 
 .dropdown-divider {
