@@ -1,12 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {Form, Button} from "react-bootstrap";
 import emailjs from '@emailjs/browser';
-import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 export const ContactPage = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState(null);
 
   const form = useRef();
 
@@ -14,7 +13,7 @@ export const ContactPage = () => {
     e.preventDefault();
 
     if (!subject || !message) {
-      setError("Please fill out all fields.");
+      toast.error("Please fill out all fields.");
       return;
     }
 
