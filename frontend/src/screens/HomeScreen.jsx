@@ -6,11 +6,12 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
+import SortByPrice from "../components/SortbyPrice";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 
 const HomeScreen = () => {
-  const { pageNumber, keyword } = useParams();
-  const { data, isLoading, error } = useGetProductsQuery( {keyword, pageNumber});
+  const { pageNumber, keyword, minPrice } = useParams();
+  const { data, isLoading, error } = useGetProductsQuery( {keyword, pageNumber, minPrice});
 
   let content;
 
@@ -26,6 +27,7 @@ const HomeScreen = () => {
     content = (
       <>
         <h1>Latest Products</h1>
+          <SortByPrice/>
         <Row>
           {data.products.map((product) => (
             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
