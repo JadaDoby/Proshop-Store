@@ -10,6 +10,7 @@ import SortByPrice from "../components/SortbyPrice";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 
 const HomeScreen = () => {
+  //get minPrice from url
   const { pageNumber, keyword, minPrice } = useParams();
   const { data, isLoading, error } = useGetProductsQuery( {keyword, pageNumber, minPrice});
 
