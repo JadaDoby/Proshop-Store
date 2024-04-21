@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Badge, Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSave } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
@@ -11,6 +11,7 @@ import logo from "../assets/logo.png";
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
+  const { saveForLaterItems } = useSelector((state) => state.saveForLater); // Access saveForLater items from the Redux store
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,6 +49,16 @@ const Header = () => {
                   {cartItems.length > 0 && (
                     <Badge pill bg="success" style={{ marginLeft: "5px" }}>
                       {cartItems.reduce((a, c) => a + c.qty, 0)}
+                    </Badge>
+                  )}
+                </Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/saveForLater">
+                <Nav.Link>
+                <FaSave /> Save For Later
+                  {saveForLaterItems.length > 0 && (
+                    <Badge pill bg="info" style={{ marginLeft: "5px" }}>
+                       {saveForLaterItems.reduce((a, c) => a + c.qty, 0)}
                     </Badge>
                   )}
                 </Nav.Link>

@@ -21,17 +21,19 @@ const ProductScreen = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
 
-    const addToCartHandler = () => {
-        dispatch(addToCart({ ...product, qty }));
-        navigate('/cart');
-    };
-   
-    const MoveToSaveForLaterHandler = () => {
-      dispatch(moveToSave({ ...product, qty }));
-      navigate('/saveforlater');
-  };
+    
 
     const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
+
+    const addToCartHandler = () => {
+      dispatch(addToCart({ ...product, qty }));
+      navigate('/cart');
+  };
+ 
+  const MoveToSaveForLaterHandler = async () => {
+    dispatch(moveToSave({ ...product, qty }));
+    navigate('/saveforlater');
+};
 
     const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
 
@@ -190,7 +192,7 @@ const ProductScreen = () => {
                           disabled={product.countInStock === 0}
                           onClick={MoveToSaveForLaterHandler}
                         >
-                          Move To Save For Later
+                          Save For Later
                         </Button>
                       </ListGroup.Item>
                     </ListGroup>
