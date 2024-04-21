@@ -9,7 +9,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         params: {
           keyword,
           pageNumber,
-          minPrice,
+          minPrice, // Add minPrice to the query params
         },
       }),
       keepUnusedDataFor: 5,
