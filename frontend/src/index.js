@@ -32,12 +32,14 @@ import ProductEditScreen from "./screens/admin/ProductEditScreen";
 import UserListScreen from "./screens/admin/UserListScreen";
 import UserEditScreen from "./screens/admin/UserEditScreen";
 import SaveForLaterScreen from "./screens/SaveForLaterScreen";
+import ContactPage from "./screens/ContactPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/search/:keyword" element={<HomeScreen />} />
+      <Route path="minPrice/:minPrice" element={<HomeScreen />} /> 
       <Route path="/page/:pageNumber" element={<HomeScreen />} />
       <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
       <Route path="/product/:id" element={<ProductScreen />} />
@@ -46,6 +48,7 @@ const router = createBrowserRouter(
 
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/contactUs" element={<ContactPage />} />
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="/shipping" element={<ShippingScreen />} />
