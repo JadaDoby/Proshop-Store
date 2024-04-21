@@ -31,12 +31,17 @@ const moveSlice = createSlice({
       // Update saveForLater items in localStorage using the new utility function
       updateSaveForLater(state);
     },
+    clearSaveItems: (state, action) => {
+      state.saveForLaterItems = [];
+      return updateSaveForLater(state);
+    },
   },
 });
 
 export const {
   moveToSave,
   removeFromSave,
+  clearSaveItems,
 } = moveSlice.actions;
 
 export default moveSlice.reducer;

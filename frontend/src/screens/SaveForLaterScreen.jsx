@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
-import { moveToSave, removeFromSave } from "../slices/moveSlice";
+import { moveToSave, removeFromSave,clearSaveItems, } from "../slices/moveSlice";
 import { addToCart } from '../slices/cartSlice';
 
 const SaveForLaterScreen = () => {
@@ -34,6 +34,8 @@ const SaveForLaterScreen = () => {
     saveForLaterItems.forEach((item) => {
       dispatch(addToCart({ ...item, qty: item.qty })); // Ensure to use item.qty for quantity
     });
+
+    dispatch(clearSaveItems());
     navigate('/cart');
   };
   
