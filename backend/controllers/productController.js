@@ -14,12 +14,11 @@ const getProducts = asyncHandler(async (req, res) => {
   
   // Add minPrice to the query params
   const minPrice = req.query.minPrice ? { price: { $gte: parseInt(req.query.minPrice) } } : {};
-  const maxPrice = req.query.maxPrice ? { price: { $lte: parseInt(req.query.maxPrice) } } : {};
 
 //adding minPrice to find product and 
-  const count = await Product.countDocuments({...keyword,...minPrice,...maxPrice});
+  const count = await Product.countDocuments({...keyword,...minPrice});
 
-  const products = await Product.find({...keyword,...minPrice,...maxPrice})
+  const products = await Product.find({...keyword,...minPrice})
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });

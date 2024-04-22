@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+//sort by min price
 const SortbyPrice = () => {
   const navigate = useNavigate();
   const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
 
+  //submit handler
   const submitHandler = (e) => {
     e.preventDefault();
-    if (minPrice || maxPrice) {
-      navigate(`/minPrice/${minPrice}/maxPrice/${maxPrice}`);
+    if (minPrice) {
+      navigate(`/minPrice/${minPrice}`);
+      setMinPrice('');
     } else {
       navigate('/');
     }
   };
-
+//main return
   return (
     <Form onSubmit={submitHandler} className='d-flex'>
       <Form.Control
@@ -23,19 +25,11 @@ const SortbyPrice = () => {
         name='minPrice'
         onChange={(e) => setMinPrice(e.target.value)}
         value={minPrice}
-        placeholder='Enter Min Price...'
+        placeholder='Enter Min Price...' //placeholder input
         className='mr-sm-2 ml-sm-5'
-      />
-      <Form.Control
-        type='number'
-        name='maxPrice'
-        onChange={(e) => setMaxPrice(e.target.value)}
-        value={maxPrice}
-        placeholder='Enter Max Price...'
-        className='mr-sm-2'
-      />
+      ></Form.Control>
       <Button type='submit' variant='outline-light' className='p-2 mx-2'>
-        Sort by Price
+        Sort by Min Price
       </Button>
     </Form>
   );
