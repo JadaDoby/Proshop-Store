@@ -12,17 +12,28 @@ const getProducts = asyncHandler(async (req, res) => {
 
   const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: 'i'} } : {};
   
-  // Add minPrice to the query params
-  const minPrice = req.query.minPrice ? { price: { $gte: parseInt(req.query.minPrice) } } : {};
+  // Change minPrice to range query with lower and upper bounds
+  const priceFilter = {};
+  if (req.query.minPrice && req.query.maxPrice) {
+    priceFilter.price = {
+      $gte: parseInt(req.query.minPrice),
+      $lte: parseInt(req.query.maxPrice)
+    };
+  } else if (req.query.minPrice) {
+    priceFilter.price = { $gte: parseInt(req.query.minPrice) };
+  } else if (req.query.maxPrice) {
+    priceFilter.price = { $lte: parseInt(req.query.maxPrice) };
+  }
 
-//adding minPrice to find product and 
-  const count = await Product.countDocuments({...keyword,...minPrice});
+  const count = await Product.countDocuments({ ...keyword, ...priceFilter });
 
-  const products = await Product.find({...keyword,...minPrice})
+  const products = await Product.find({ ...keyword, ...priceFilter })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
+  
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
+
 
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
