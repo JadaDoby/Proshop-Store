@@ -26,20 +26,20 @@ const UserListScreen = () => {
       }
     };
 
-    // const deleteHandler = async (id) => {
-    //     console.log('delete');
-    // };
+    const loadingDetector = () => {
+      if (isLoading){
+        return <Loader />
+      }
+      else {
+        return <Message variant="danger">{error?.data?.message || error.error}</Message>
+      }
+    }
+
 
   return (
     <>
       <h1>Users</h1>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">
-          {error?.data?.message || error.error}
-        </Message>
-      ) : (
+      { (isLoading || error) ? loadingDetector : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
