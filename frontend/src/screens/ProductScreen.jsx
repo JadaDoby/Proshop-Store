@@ -141,7 +141,7 @@ const ProductScreen = () => {
             <meta property="og:title" content={product.name} />
             <meta property="og:description" content={product.description} />
             <meta property="og:url" content={shareUrl} />
-            
+
             <TelegramShareButton url={shareUrl} title={product.description }>
               <TelegramIcon size={40}/>
             </TelegramShareButton>
@@ -152,6 +152,10 @@ const ProductScreen = () => {
               <WhatsappIcon size={40}/>
             </WhatsappShareButton>
 
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="Your Product Title" />
+            <meta name="twitter:description" content={product.description} />
+            <meta name="twitter:image" content={product.image}/>
             <Row>
                 <Col md={5}>
                   <Image src={product.image} alt={product.name} fluid />
