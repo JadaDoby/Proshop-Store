@@ -11,8 +11,25 @@ import Meta from '../components/Meta';
 import { useGetProductDetailsQuery, useCreateReviewMutation } from "../slices/productsApiSlice";
 import { addToCart } from '../slices/cartSlice';
 import { moveToSave } from '../slices/moveSlice';
+import {
+  FacebookShareButton, 
+  FacebookIcon, 
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+  RedditIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  EmailShareButton, 
+  EmailIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  TelegramShareButton, 
+  TelegramIcon
+} from 'react-share';
 
 const ProductScreen = () => {
+    const shareUrl = window.location.href
     const { id: productId } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -107,19 +124,41 @@ const ProductScreen = () => {
         return formOrMessage;
       };
 
-      return (
-        <>
-          <Link className="btn btn-light my-3" to="/">
-            Go Back
-          </Link>
-          {isLoading ? (
-            <Loader />
-          ) : error ? (
-            <Message variant='danger'>{error?.data?.message || error.error}</Message>
-          ) : (
-            <>
-              <Meta title={product.name} description={product.description} />
-              <Row>
+    return (
+      <>
+        <Link className="btn btn-light my-3" to="/">
+          Go Back
+        </Link>
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant='danger'>{error?.data?.message || error.error}</Message>
+        ) : (
+          <>
+            <Meta title={product.name}
+                  description={product.description} />
+            <meta property="og:image" content={product.image} />
+            <meta property="og:title" content={product.name} />
+            <meta property="og:description" content={product.description} />
+            <meta property="og:url" content={shareUrl} />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content="Your Product Title" />
+            <meta name="twitter:description" content={product.description} />
+            <meta name="twitter:image" content={product.image}/>
+            
+            <TelegramShareButton url={shareUrl} title={product.description }>
+              <TelegramIcon size={40}/>
+            </TelegramShareButton>
+            <TwitterShareButton url={shareUrl} title={product.description }>
+              <TwitterIcon size={40}/>
+            </TwitterShareButton>
+            <WhatsappShareButton url={shareUrl} title={product.description}>
+              <WhatsappIcon size={40}/>
+            </WhatsappShareButton>
+
+            
+            <Row>
                 <Col md={5}>
                   <Image src={product.image} alt={product.name} fluid />
                 </Col>
