@@ -23,7 +23,9 @@ import {
   EmailShareButton, 
   EmailIcon,
   WhatsappShareButton,
-  WhatsappIcon
+  WhatsappIcon,
+  TelegramShareButton, 
+  TelegramIcon
 } from 'react-share';
 
 const ProductScreen = () => {
@@ -135,13 +137,18 @@ const ProductScreen = () => {
           <>
             <Meta title={product.name}
                   description={product.description} />
-            <TwitterShareButton url={shareUrl} title={product.decription }>
+            <meta property="og:image" content={product.image} />
+            <meta property="og:title" content={product.name} />
+            <meta property="og:description" content={product.description} />
+            <meta property="og:url" content={shareUrl} />
+            
+            <TelegramShareButton url={shareUrl} title={product.description }>
+              <TelegramIcon size={40}/>
+            </TelegramShareButton>
+            <TwitterShareButton url={shareUrl} title={product.description }>
               <TwitterIcon size={40}/>
             </TwitterShareButton>
-            <EmailShareButton url={shareUrl} subject={"Check this product out!"} body = {product.description} separator=''>
-              <EmailIcon size={40}/>
-            </EmailShareButton>
-            <WhatsappShareButton url={shareUrl} title={product.decription}>
+            <WhatsappShareButton url={shareUrl} title={product.description}>
               <WhatsappIcon size={40}/>
             </WhatsappShareButton>
 
