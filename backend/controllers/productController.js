@@ -25,13 +25,15 @@ const getProducts = asyncHandler(async (req, res) => {
     priceFilter.price = { $lte: parseInt(req.query.maxPrice) };
   }
 
-  const count = await Product.countDocuments({ ...keyword, ...priceFilter });
+  const categoryFilter = req.query.category ? { category: req.query.category } : {}; 
 
-  const products = await Product.find({ ...keyword, ...priceFilter })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-  
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+const count = await Product.countDocuments({ ...keyword, ...priceFilter, ...categoryFilter });
+
+const products = await Product.find({ ...keyword, ...priceFilter, ...categoryFilter })
+  .limit(pageSize)
+  .skip(pageSize * (page - 1));
+
+res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 
