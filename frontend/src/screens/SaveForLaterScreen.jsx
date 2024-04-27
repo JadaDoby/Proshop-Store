@@ -13,6 +13,8 @@ import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import { moveToSave, removeFromSave,clearSaveItems, } from "../slices/moveSlice";
 import { addToCart } from '../slices/cartSlice';
+import emailjs from '@emailjs/browser';
+
 
 const SaveForLaterScreen = () => {
   const navigate = useNavigate();
