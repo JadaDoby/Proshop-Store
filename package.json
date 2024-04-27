@@ -32,7 +32,8 @@
     "multer": "^1.4.5-lts.1",
     "prop-types": "^15.8.1",
     "serve-favicon": "^2.5.0",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "react-share": "^5.1.0"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
