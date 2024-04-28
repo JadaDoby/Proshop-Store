@@ -12,16 +12,8 @@ import { useGetProductDetailsQuery, useCreateReviewMutation } from "../slices/pr
 import { addToCart } from '../slices/cartSlice';
 import { moveToSave } from '../slices/moveSlice';
 import {
-  FacebookShareButton, 
-  FacebookIcon, 
-  LinkedinShareButton,
-  LinkedinIcon,
-  RedditShareButton,
-  RedditIcon,
   TwitterShareButton,
   TwitterIcon,
-  EmailShareButton, 
-  EmailIcon,
   WhatsappShareButton,
   WhatsappIcon,
   TelegramShareButton, 
